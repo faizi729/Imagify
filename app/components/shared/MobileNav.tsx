@@ -29,7 +29,7 @@ const MobileNav = () => {
         </Link>
         <nav className='flex gap-2'>
             <SignedIn>
-                <UserButton redirectUrl="/" />
+                <UserButton  />
 
                 <Sheet>
                         <SheetTrigger>
