@@ -7,11 +7,18 @@ interface MongooseConnection {
     promise: Promise<Mongoose> | null;
 }
 
-// Use globalThis to avoid TypeScript warnings
-let cached: MongooseConnection = (globalThis as any).mongoose;
+// Extending globalThis with our custom type
+interface Global {
+    mongoose?: MongooseConnection;
+}
 
-if (!cached) {
-    cached = (globalThis as any).mongoose = { conn: null, promise: null };
+declare const globalThis: Global;
+
+// Use globalThis to avoid TypeScript warnings
+const cached: MongooseConnection = globalThis.mongoose || { conn: null, promise: null };
+
+if (!globalThis.mongoose) {
+    globalThis.mongoose = cached;
 }
 
 export const connectToDatabase = async (): Promise<Mongoose> => {
