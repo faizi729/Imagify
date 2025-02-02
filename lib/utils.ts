@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-/* eslint-disable no-prototype-builtins */
+
 import { type ClassValue, clsx } from "clsx";
 import qs from 'qs'
 import { twMerge } from "tailwind-merge";
@@ -95,9 +95,15 @@ export const debounce = (func: (...args: unknown[]) => void, delay: number) => {
 
 // GE IMAGE SIZE
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
+interface Image {
+  aspectRatio: string; // Add specific aspectRatio property
+  width?: number;
+  height?: number;
+}
+
 export const getImageSize = (
   type: string,
-  image: Record<string, unknown>,
+  image: Image, // Use the new type
   dimension: "width" | "height"
 ): number => {
   if (type === "fill") {
@@ -108,6 +114,7 @@ export const getImageSize = (
   }
   return image?.[dimension] || 1000;
 };
+
 
 // DOWNLOAD IMAGE
 export const download = (url: string, filename: string) => {
